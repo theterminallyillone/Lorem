@@ -8,3 +8,4 @@ var date = new Date();
 var dateString = "";
 var lastShownPage = 0;
 var shownPages = 5;
+var fetching = "";

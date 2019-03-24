@@ -35,7 +35,14 @@ function showMore(index, page) {
 				} else if (index.ext[i] == "mp3") {
 					insertString +="<audio controls style='display:none' id='pg"+page.toString()+"obj"+i.toString()+"'><source src='assets/"+page.toString()+"/"+index.title[i]+"_"+index.date[i]+"."+index.ext[i]+"' type='audio/"+index.ext[i]+"'></audio>";
 				} else if (index.ext[i] == "txt") {
-					fetch(URL+"assets/"+page.toString()+"/"+index.title[i]+"_"+index.date[i]+"."+index.ext[i]).then(response=>response.text()).then(text => console.log(text))
+					insertString+="<div id='pg"+page.toString()+"obj"+i.toString()+"></div>";
+					FETCH:
+					if (fetching.length == 0) {
+						fetching.push("pg"+page.toString()+"obj"+i.toString());				
+						fetch(URL+"assets/"+page.toString()+"/"+index.title[i]+"_"+index.date[i]+"."+index.ext[i]).then(response=>response.text()).then(text => document.getElementById(fetching).innerHTML = text; fetching = "";);
+					} else {
+						continue FETCH;
+					}
 				}
 				insertString += "</div>";
 				document.getElementById("content").insertAdjacentHTML("beforeend", insertString);
