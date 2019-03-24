@@ -3,6 +3,10 @@
 		---Source---
 */
 
+function found(text) {
+	document.getElementById(fetching).innerHTML = text;
+	fetching = "";
+}
 function init() {
 	if (date.getMonth() < 9) {
 		dateString += "0"+(date.getMonth()+1).toString();
@@ -37,12 +41,11 @@ function showMore(index, page) {
 				} else if (index.ext[i] == "txt") {
 					insertString+="<div id='pg"+page.toString()+"obj"+i.toString()+"></div>";
 					FETCH:
-					if (fetching.length == 0) {
-						fetching.push("pg"+page.toString()+"obj"+i.toString());				
-						fetch(URL+"assets/"+page.toString()+"/"+index.title[i]+"_"+index.date[i]+"."+index.ext[i]).then(response=>response.text()).then(text => document.getElementById(fetching).innerHTML = text; fetching = "";);
-					} else {
+					while (fetching.length != 0) {
 						continue FETCH;
 					}
+					fetching = "pg"+page.toString()+"obj"+i.toString();				
+					fetch(URL+"assets/"+page.toString()+"/"+index.title[i]+"_"+index.date[i]+"."+index.ext[i]).then(response=>response.text()).then(text => found(text));
 				}
 				insertString += "</div>";
 				document.getElementById("content").insertAdjacentHTML("beforeend", insertString);
